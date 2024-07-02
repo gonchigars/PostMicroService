@@ -32,7 +32,7 @@ public class PostController {
         try {
             Post createdPost = postService.createPost(post);
             logger.info("Created post: {}", createdPost);
-            return new ResponseEntity<>(createdPost, HttpStatus.CREATED);
+            return new ResponseEntity<>(createdPost, HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
             logger.error("Error creating post", e);
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
