@@ -56,6 +56,9 @@ public class PostService {
                 .orElseThrow(() -> new RuntimeException("Post not found with id: " + postId));
         post.setTitle(postDetails.getTitle());
         post.setContent(postDetails.getContent());
+        post.setUserId(postDetails.getUserId());
+        post.setUserName(postDetails.getUserName());
+        post.setUserEmail(postDetails.getUserEmail());
         return postRepository.save(post);
     }
 
@@ -71,7 +74,6 @@ public class PostService {
                 .filter(post -> post.getUserId() == userId)
                 .collect(Collectors.toList());
     }
-
     private void fetchAndSetUserDetails(Post post) {
         try {
             Map<String, Object> userDetails = restTemplate.getForObject(USER_SERVICE_URL + post.getUserId(), Map.class);
