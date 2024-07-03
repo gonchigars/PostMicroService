@@ -114,6 +114,7 @@ public class PostController {
         } catch (Exception e) {
             logger.error("Error retrieving posts for user with id: {}", userId, e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            
         }
     }
 }
