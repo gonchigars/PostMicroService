@@ -15,19 +15,19 @@ import org.slf4j.LoggerFactory;
 @Service
 public class PostService {
     private static final Logger logger = LoggerFactory.getLogger(PostService.class);
-    
+
     @Autowired
     private PostRepository postRepository;
 
     @Autowired
     private RestTemplate restTemplate;
 
-    private static final String USER_SERVICE_URL = "http://user-service:8080/api/users/";
+    private static final String USER_SERVICE_URL = "http://localhost:8080/api/users/";
 
     public Post createPost(Post post) {
         logger.info("Creating new post: {}", post);
+        fetchAndSetUserDetails(post); // explain this ?
         Post savedPost = postRepository.save(post);
-        fetchAndSetUserDetails(savedPost);
         return savedPost;
     }
 
@@ -40,7 +40,7 @@ public class PostService {
 
     public List<Post> getAllPosts() {
         List<Post> posts = postRepository.findAll();
-        posts.forEach(this::fetchAndSetUserDetails);
+        posts.forEach(this::fetchAndSetUserDetails); // why we are using this here?
         return posts;
     }
 
@@ -69,7 +69,7 @@ public class PostService {
         List<Post> allPosts = postRepository.findAll();
         return allPosts.stream()
                 .filter(post -> post.getUserId() == userId)
-                .collect(Collectors.toList());
+                .collect(Collectors.toList()); // explain this methods
     }
 
     private void fetchAndSetUserDetails(Post post) {

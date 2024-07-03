@@ -15,9 +15,10 @@ import javax.annotation.PostConstruct;
 
 @RestController
 @RequestMapping("/api/posts")
+@CrossOrigin(origins = { "http://localhost:3000", "http://localhost:8080" })
 public class PostController {
     private static final Logger logger = LoggerFactory.getLogger(PostController.class);
-    
+
     @Autowired
     private PostService postService;
 
@@ -32,10 +33,10 @@ public class PostController {
         try {
             Post createdPost = postService.createPost(post);
             logger.info("Created post: {}", createdPost);
-            return new ResponseEntity<>(createdPost, HttpStatus.CREATED);
+            return new ResponseEntity<>(createdPost, HttpStatus.CREATED); // What is this?
         } catch (Exception e) {
             logger.error("Error creating post", e);
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR); // what is this?
         }
     }
 
