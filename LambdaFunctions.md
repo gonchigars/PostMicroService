@@ -1,5 +1,3 @@
-Certainly. I'll rewrite the tutorial with more context and explanations, focusing on building a clear understanding from the ground up.
-
 Tutorial: Lambda Functions in Java
 
 1. Introduction to Lambda Functions
