@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import io.swagger.annotations.Api;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -98,10 +99,13 @@ public class PostController {
     @DeleteMapping("/{postId}")
     public ResponseEntity<?> deletePost(@PathVariable int postId) {
         logger.info("Received request to delete post with id: {}", postId);
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("msg", "post is deleted successfully");
+        map.put("postId", postId);
         try {
             postService.deletePost(postId);
             logger.info("Deleted post with id: {}", postId);
-            return new ResponseEntity<>("Post deleted successfully", HttpStatus.OK);
+            return new ResponseEntity<>(map, HttpStatus.OK);
         } catch (RuntimeException e) {
             logger.error("Error deleting post with id: {}", postId, e);
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
