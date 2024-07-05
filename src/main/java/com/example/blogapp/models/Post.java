@@ -20,7 +20,8 @@ public class Post {
     private String userEmail;
 
     // Constructors
-    public Post() {}
+    public Post() {
+    }
 
     public Post(String title, String content, int userId) {
         this.title = title;

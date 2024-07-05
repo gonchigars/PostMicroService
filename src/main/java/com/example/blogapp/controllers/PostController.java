@@ -6,18 +6,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.annotation.ApplicationScope;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import io.swagger.annotations.Api;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 
 @RestController
 @RequestMapping("/api/posts")
+@Api(tags = "Soheb PostController Documantaion")
+@CrossOrigin(origins = { "http://localhost:3000", "http://localhost:8080" })
 public class PostController {
     private static final Logger logger = LoggerFactory.getLogger(PostController.class);
-    
+
     @Autowired
     private PostService postService;
 
@@ -32,10 +37,10 @@ public class PostController {
         try {
             Post createdPost = postService.createPost(post);
             logger.info("Created post: {}", createdPost);
-            return new ResponseEntity<>(createdPost, HttpStatus.CREATED);
+            return new ResponseEntity<>(createdPost, HttpStatus.CREATED); // What is this?
         } catch (Exception e) {
             logger.error("Error creating post", e);
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR); // what is this?
         }
     }
 
@@ -94,10 +99,13 @@ public class PostController {
     @DeleteMapping("/{postId}")
     public ResponseEntity<?> deletePost(@PathVariable int postId) {
         logger.info("Received request to delete post with id: {}", postId);
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("msg", "post is deleted successfully");
+        map.put("postId", postId);
         try {
             postService.deletePost(postId);
             logger.info("Deleted post with id: {}", postId);
-            return new ResponseEntity<>("Post deleted successfully", HttpStatus.OK);
+            return new ResponseEntity<>(map, HttpStatus.OK);
         } catch (RuntimeException e) {
             logger.error("Error deleting post with id: {}", postId, e);
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
